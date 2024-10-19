@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div>
     <NuxtPage />
   </div>
@@ -14,9 +15,7 @@ onMounted(async () => {
   if (process.client && calculator.value) {
     const Desmos = await $desmos
     const desmosCalculator = Desmos.GraphingCalculator(calculator.value)
-    // Use desmosCalculator as needed
     console.log('Desmos calculator initialized:', desmosCalculator)
   }
 })
 </script>
-

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TwoPaneContainer :leftTabs="leftTabs" :rightTabs="rightTabs" />
+      <TwoPaneContainer :leftTabs="leftTabs" :rightTabs="rightTabs" />
   </div>
 </template>
 

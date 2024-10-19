@@ -1,17 +1,17 @@
 <template>
   <div class="two-pane-container">
     <div class="pane left-pane">
-
       <component :is="activeLeftComponent" />
     </div>
     <div class="pane right-pane">
-
       <component :is="activeRightComponent" />
     </div>
   </div>
 </template>
 
 <script>
+import { nextTick } from 'vue'
+
 export default {
   props: {
     leftTabs: {
@@ -36,6 +36,29 @@ export default {
     activeRightComponent() {
       return this.rightTabs.find(tab => tab.name === this.activeRightTab)?.component
     }
+  },
+  methods: {
+    async switchLeftTab(tabName) {
+      this.activeLeftTab = tabName
+      await this.renderMathJax()
+    },
+    async switchRightTab(tabName) {
+      this.activeRightTab = tabName
+      await this.renderMathJax()
+    },
+    async renderMathJax() {
+      await nextTick()
+      const { $mathjax } = useNuxtApp()
+      await $mathjax.render(this.$el)
+    }
+  },
+
+  async mounted() {
+    await this.renderMathJax()
+  },
+
+  async updated() {
+    await this.renderMathJax()
   }
 }
 </script>
