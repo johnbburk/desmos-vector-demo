@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="calculator" style="width: 600px; height: 400px;"></div>
+    <NuxtPage />
   </div>
 </template>
 
@@ -19,3 +19,4 @@ onMounted(async () => {
   }
 })
 </script>
+
