@@ -3,5 +3,5 @@ export default {
       plugins: [
             { src: '~/plugins/desmos.client.js', mode: 'client' }
       ],
-      // ... other configurations
+      css: ['~/public/main.css']
 }

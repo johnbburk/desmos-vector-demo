@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import { nextTick } from 'vue'
+import { computed } from 'vue'
+import { useTabSwitcher } from '~/composables/useTabSwitcher'
 
 export default {
   props: {
@@ -23,42 +24,21 @@ export default {
       required: true
     }
   },
-  data() {
+  setup(props) {
+    const { activeLeftTab, activeRightTab } = useTabSwitcher()
+
+    const activeLeftComponent = computed(() => 
+      props.leftTabs.find(tab => tab.name === activeLeftTab.value)?.component
+    )
+
+    const activeRightComponent = computed(() => 
+      props.rightTabs.find(tab => tab.name === activeRightTab.value)?.component
+    )
+
     return {
-      activeLeftTab: this.leftTabs[0]?.name || '',
-      activeRightTab: this.rightTabs[0]?.name || ''
+      activeLeftComponent,
+      activeRightComponent
     }
-  },
-  computed: {
-    activeLeftComponent() {
-      return this.leftTabs.find(tab => tab.name === this.activeLeftTab)?.component
-    },
-    activeRightComponent() {
-      return this.rightTabs.find(tab => tab.name === this.activeRightTab)?.component
-    }
-  },
-  methods: {
-    async switchLeftTab(tabName) {
-      this.activeLeftTab = tabName
-      await this.renderMathJax()
-    },
-    async switchRightTab(tabName) {
-      this.activeRightTab = tabName
-      await this.renderMathJax()
-    },
-    async renderMathJax() {
-      await nextTick()
-      const { $mathjax } = useNuxtApp()
-      await $mathjax.render(this.$el)
-    }
-  },
-
-  async mounted() {
-    await this.renderMathJax()
-  },
-
-  async updated() {
-    await this.renderMathJax()
   }
 }
 </script>
@@ -73,7 +53,6 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
 }
 
 .tab-buttons {

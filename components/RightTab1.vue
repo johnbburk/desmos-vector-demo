@@ -20,6 +20,7 @@ onMounted(async () => {
       const Desmos = await $desmos.load()
       const calculator = Desmos.Geometry(calculatorRef.value, {
         settingsMenu: false,
+        expressions: false,
         expressionsTopbar: false,
         zoomButtons: false,
       })
