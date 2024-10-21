@@ -9,38 +9,30 @@
   </div>
 </template>
 
-<script>
-import { computed } from 'vue'
+<script setup>
+import { computed, markRaw } from 'vue'
 import { useTabSwitcher } from '~/composables/useTabSwitcher'
 
-export default {
-  props: {
-    leftTabs: {
-      type: Array,
-      required: true
-    },
-    rightTabs: {
-      type: Array,
-      required: true
-    }
+const props = defineProps({
+  leftTabs: {
+    type: Array,
+    required: true
   },
-  setup(props) {
-    const { activeLeftTab, activeRightTab } = useTabSwitcher()
-
-    const activeLeftComponent = computed(() => 
-      props.leftTabs.find(tab => tab.name === activeLeftTab.value)?.component
-    )
-
-    const activeRightComponent = computed(() => 
-      props.rightTabs.find(tab => tab.name === activeRightTab.value)?.component
-    )
-
-    return {
-      activeLeftComponent,
-      activeRightComponent
-    }
+  rightTabs: {
+    type: Array,
+    required: true
   }
-}
+})
+
+const { activeLeftTab, activeRightTab } = useTabSwitcher()
+
+const activeLeftComponent = computed(() => 
+  markRaw(props.leftTabs.find(tab => tab.name === activeLeftTab.value)?.component)
+)
+
+const activeRightComponent = computed(() => 
+  markRaw(props.rightTabs.find(tab => tab.name === activeRightTab.value)?.component)
+)
 </script>
 
 <style scoped>

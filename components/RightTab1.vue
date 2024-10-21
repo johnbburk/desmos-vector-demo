@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, markRaw } from 'vue'
 import { useDesmos } from '~/composables/useDesmos'
 
 const calculatorRef = ref(null)
@@ -24,7 +24,7 @@ onMounted(async () => {
         expressionsTopbar: false,
         zoomButtons: false,
       })
-      setCalculator(calculator)
+      setCalculator(markRaw(calculator))
     } catch (error) {
       console.error('Error initializing Desmos:', error)
     }

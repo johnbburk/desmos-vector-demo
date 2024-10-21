@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, markRaw } from 'vue'
 import TwoPaneContainer from '~/components/TwoPaneContainer.vue'
 
 export default {
@@ -15,12 +15,12 @@ export default {
   data() {
     return {
       leftTabs: [
-        { name: 'left1', label: 'Left Tab 1', component: defineAsyncComponent(() => import('~/components/LeftTab1.vue')) },
-        { name: 'left2', label: 'Left Tab 2', component: defineAsyncComponent(() => import('~/components/LeftTab2.vue')) }
+        { name: 'left1', label: 'Left Tab 1', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab1.vue'))) },
+        { name: 'left2', label: 'Left Tab 2', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab2.vue'))) }
       ],
       rightTabs: [
-        { name: 'right1', label: 'Right Tab 1', component: defineAsyncComponent(() => import('~/components/RightTab1.vue')) },
-        { name: 'right2', label: 'Right Tab 2', component: defineAsyncComponent(() => import('~/components/RightTab2.vue')) }
+        { name: 'right1', label: 'Right Tab 1', component: markRaw(defineAsyncComponent(() => import('~/components/RightTab1.vue'))) },
+        { name: 'right2', label: 'Right Tab 2', component: markRaw(defineAsyncComponent(() => import('~/components/RightTab2.vue'))) }
       ]
     }
   }
