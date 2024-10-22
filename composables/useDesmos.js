@@ -175,6 +175,131 @@ export const useDesmos = () => {
             calculator.value.removeExpressions([{ id: "neg_b" }, { id: "neg_b_label" }])
       }
 
+
+      function moveNegativeBToA() {
+            console.log('moveNegativeBToA')
+            showNegativeBVector()
+            calculator.value.setExpressions([
+                  {
+                        id: "neg_b",
+                        hidden: false,
+                  },
+                  {
+                        id: "neg_b_label",
+                        hidden: true,
+                        showLabel: false,
+                  },
+                  {
+                        type: "expression",
+                        playing: false,
+                        id: "t_slider",
+                        color: "#6042a6",
+                        latex: "t=0",
+                        sliderBounds: {
+                              min: "0",
+                              max: "1",
+                              step: "0.01",
+                        },
+                        slider: {
+                              hardMin: true,
+                              hardMax: true,
+                              loopMode: "PLAY_ONCE",
+                              isPlaying: true,
+                              min: "0",
+                              max: "1",
+                              step: "0.01",
+                        },
+                  },
+                  {
+                        type: "expression",
+                        id: "b_trans_vec",
+                        color: "#000000",
+                        latex: "f=\\operatorname{vector}\\left(p_{3},p_{2}\\right)",
+                        hidden: true,
+                  },
+                  {
+                        type: "expression",
+                        id: "b_translation",
+                        color: "#2d70b3",
+                        latex: "g=\\operatorname{translate}\\left(c,t\\cdot f\\right)",
+                  },
+            ])
+            calculator.value.setExpressions([
+                  {
+                        id: "neg_b",
+                        hidden: true,
+                  },
+                  {
+                        id: "neg_b_label",
+                        hidden: true,
+                        showLabel: false,
+                  },
+                  {
+                        id: "t_slider",
+                        playing: true,
+                  },
+                  {
+                        type: "expression",
+                        id: "neg_b_translation_label",
+                        color: "#388c46",
+                        latex:
+                              "p_{10}=\\operatorname{translate}\\left(p_{3},\\frac{c}{2}\\right)",
+                        showLabel: false,
+                        hidden: true,
+                        pointSize: "0",
+                  },
+                  {
+                        type: "expression",
+                        id: "neg_b_translated_label",
+                        color: "#2d70b3",
+                        latex:
+                              "p_{11}\\ =\\operatorname{translate}\\left(p_{10},t\\cdot f\\right)",
+                        showLabel: true,
+                        label: "`-\\vec{b}`",
+                        dragMode: "NONE",
+                        pointOpacity: "1",
+                        pointSize: "0",
+                        movablePointSize: "0",
+                  },
+            ])
+            setTimeout(() => {
+                  calculator.value.setExpression({ id: "t_slider", playing: false })
+            }, 4000)
+      }
+
+      const drawResultant = () => {
+            calculator.value.setExpressions([
+                  {
+                        id: "neg_b_translated_label",
+                        latex: "p_{11}\\ =\\operatorname{translate}\\left(p_{10}, f\\right)",
+                  },
+                  {
+                        type: "expression",
+                        id: "b_trans_vec2",
+                        latex: "g=\\operatorname{translate}\\left(c,f\\right)",
+                  },
+                  {
+                        type: "expression",
+                        id: "sub_vector",
+                        color: "#388c46",
+                        latex: "d=a+c",
+                  },
+                  {
+                        type: "expression",
+                        id: "sub_vector_label",
+                        color: "#388c46",
+                        latex:
+                              "p_{11}\\ =\\operatorname{translate}\\left(p_{1},\\frac{d}{2}\\right)",
+                        showLabel: true,
+                        label: "`\\vec{a}-\\vec{b}`",
+                        dragMode: "NONE",
+                        pointOpacity: "1",
+                        pointSize: "0",
+                        movablePointSize: "0",
+                  },
+            ])
+      }
+
       return {
             calculator,
             isReady,
@@ -182,6 +307,8 @@ export const useDesmos = () => {
             waitForCalculator,
             initializeCalculator,
             showNegativeBVector,
-            hideNegativeB
+            hideNegativeB,
+            moveNegativeBToA,
+            drawResultant,
       }
 }

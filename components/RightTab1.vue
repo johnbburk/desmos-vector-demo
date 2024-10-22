@@ -37,7 +37,7 @@ onMounted(async () => {
   padding: 20px;
 }
 .content {
-  height: 400px;
+  height: 700px;
 }
 .calculator {
   height: 100%;
