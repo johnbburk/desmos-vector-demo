@@ -264,7 +264,7 @@ export const useDesmos = () => {
             ])
             setTimeout(() => {
                   calculator.value.setExpression({ id: "t_slider", playing: false })
-            }, 4000)
+            }, 4050)
       }
 
       const drawResultant = () => {
@@ -272,10 +272,13 @@ export const useDesmos = () => {
                   {
                         id: "neg_b_translated_label",
                         latex: "p_{11}\\ =\\operatorname{translate}\\left(p_{10}, f\\right)",
+                        color: "#2d70b3",
+
                   },
                   {
                         type: "expression",
                         id: "b_trans_vec2",
+                        color: "#2d70b3",
                         latex: "g=\\operatorname{translate}\\left(c,f\\right)",
                   },
                   {
