@@ -17,6 +17,8 @@
       <p id="closing" v-show="hasBmoved" class="explanation">
         And that's it! You can now visualize vector subtraction in terms of addition.
       </p>
+   
+      <button id="nextButton" @click="nextStep()">Test My Understanding</button>
     </div>
   </div>
 </template>
@@ -27,13 +29,19 @@
 
   import { ref, onMounted, nextTick } from 'vue'
   const { $mathjax } = useNuxtApp()
-  const { calculator, waitForCalculator, moveNegativeBToA, drawResultant } = useDesmos()
+  const {moveNegativeBToA, drawResultant } = useDesmos()
   const hasBmoved = ref(false)
+  const { switchLeftTab } = useTabSwitcher()
 
 
   function moveNegativeBVector() {
     moveNegativeBToA()
     hasBmoved.value = true
+  }
+
+  const nextStep = () => {
+    console.log('nextStep')
+    switchLeftTab('left3')
   }
 
   function drawResultantVector() {
@@ -48,13 +56,7 @@
       }
     }
 
-    const initializeCalculator = async () => {
-      const calculator = await waitForCalculator()
-      
-    }
-
     onMounted(async () => {
-      await initializeCalculator()
       renderMath()
     })
 

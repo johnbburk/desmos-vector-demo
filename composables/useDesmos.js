@@ -3,11 +3,15 @@ import { ref, watch } from 'vue'
 const calculator = ref(null)
 const isReady = ref(false)
 
+const xBounds = ref([-10, 10])
+const yBounds = ref([-10, 10])
+
 export const useDesmos = () => {
       const setCalculator = (calc) => {
             calculator.value = calc
             isReady.value = true
       }
+
 
       const waitForCalculator = () => {
             return new Promise((resolve) => {
@@ -30,6 +34,11 @@ export const useDesmos = () => {
 
       const initializeCalculator = async () => {
             const calc = await waitForCalculator()
+
+            console.log('Calculator ready, clearing state')
+            calc.setBlank()
+
+
             const x1 = randomCoordinate()
             const y1 = randomCoordinate([0, 5])
             const x2 = randomCoordinate()
@@ -38,16 +47,43 @@ export const useDesmos = () => {
             const y3 = randomCoordinate([-5, 0])
             const x4 = randomCoordinate()
             const y4 = randomCoordinate([-5, 0])
+            xBounds.value = [
+                  Math.floor(Math.min(x1, x2, x3, x4)) - 2,
+                  Math.ceil(Math.max(x1, x2, x3, x4)) + 2
+            ]
+            yBounds.value = [
+                  Math.floor(Math.min(y1, y2, y3, y4)) - 2,
+                  Math.ceil(Math.max(y1, y2, y3, y4)) + 2
+            ]
 
+            //log the points as pairs
+            console.log("points", [x1, y1], [x2, y2], [x3, y3], [x4, y4])
+
+            //log the bounds
+            console.log("bounds", xBounds.value, yBounds.value)
+
+            const b = [x4 - x3, y4 - y3]
+
+            const p5 = [x3 - b[0], y3 - b[1]]
+
+            if (p5[0] < xBounds.value[0] || p5[0] > xBounds.value[1] || p5[1] < yBounds.value[0] || p5[1] > yBounds.value[1]) {
+
+                  //update the bounds
+                  xBounds.value = [Math.floor(Math.min(x1, x2, x3, x4, p5[0])) - 2, Math.ceil(Math.max(x1, x2, x3, x4, p5[0])) + 2]
+                  yBounds.value = [Math.floor(Math.min(y1, y2, y3, y4, p5[1])) - 2, Math.ceil(Math.max(y1, y2, y3, y4, p5[1])) + 4]
+
+                  //log the new bounds
+                  console.log("new bounds", xBounds.value, yBounds.value)
+            }
             calc.setState({
                   version: 11,
                   randomSeed: "38e794736b926039ebab4a7eb869b483",
                   graph: {
                         viewport: {
-                              xmin: -10,
-                              ymin: -37.41935483870967,
-                              xmax: 10,
-                              ymax: 37.41935483870967,
+                              xmin: xBounds.value[0],
+                              ymin: yBounds.value[0],
+                              xmax: xBounds.value[1],
+                              ymax: yBounds.value[1]
                         },
                         showGrid: false,
                         showXAxis: false,
@@ -148,6 +184,17 @@ export const useDesmos = () => {
                         allowUndo: false,
                   },
             })
+            calc.setMathBounds(
+                  {
+                        left: xBounds.value[0],
+                        right: xBounds.value[1],
+                        bottom: yBounds.value[0],
+                        top: yBounds.value[1]
+                  }
+            )
+            console.log('state set')
+            console.log('calculator bounds:', calc.getState().graph.viewport)
+
       }
 
       const showNegativeBVector = () => {
@@ -303,6 +350,11 @@ export const useDesmos = () => {
             ])
       }
 
+      const reset = () => {
+            console.log('reset')
+            calculator.value.setBlank()
+      }
+
       return {
             calculator,
             isReady,
@@ -313,5 +365,6 @@ export const useDesmos = () => {
             hideNegativeB,
             moveNegativeBToA,
             drawResultant,
+            reset
       }
 }

@@ -16,7 +16,8 @@ export default {
     return {
       leftTabs: [
         { name: 'left1', label: 'Left Tab 1', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab1.vue'))) },
-        { name: 'left2', label: 'Left Tab 2', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab2.vue'))) }
+        { name: 'left2', label: 'Left Tab 2', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab2.vue'))) },
+        { name: 'left3', label: 'Left Tab 3', component: markRaw(defineAsyncComponent(() => import('~/components/LeftTab3.vue'))) }
       ],
       rightTabs: [
         { name: 'right1', label: 'Right Tab 1', component: markRaw(defineAsyncComponent(() => import('~/components/RightTab1.vue'))) },
